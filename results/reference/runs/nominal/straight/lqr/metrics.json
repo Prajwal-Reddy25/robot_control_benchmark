@@ -5,10 +5,10 @@
     "scenario": "nominal"
   },
   "metrics": {
-    "achieved_frequency_hz": 3696.8258577659903,
-    "compute_max_ms": 1.096376,
-    "compute_mean_ms": 0.2705023278008299,
-    "compute_p95_ms": 0.36372200000000005,
+    "compute_max_ms": 0.7151400000000001,
+    "compute_mean_ms": 0.23074056016597513,
+    "compute_p95_ms": 0.24880600000000003,
+    "compute_throughput_hz": 4333.871770445062,
     "control_effort": 2.959355917086405,
     "control_variation": 0.4249999999901016,
     "cross_track_mae_m": 0.0,

@@ -50,6 +50,8 @@ in `controllers/__init__.py`, and add it to YAML. To add a path, return a valida
 `metrics.calculate`; the report schema picks up new scalar keys automatically.
 
 ROS topic names and update frequency are parameters. Controller-specific gains are currently YAML
-benchmark parameters rather than ROS parameters; exposing typed ROS parameter descriptors is a
-natural production extension.
+benchmark parameters rather than ROS parameters. The demo publishes a zero command once the end of
+the path is reached, and the Gazebo plugin enforces the benchmark's default velocity/acceleration
+envelope. Production deployment would additionally require a command/odometry watchdog, explicit
+fault-state behavior, and plant-specific safety limits.
 

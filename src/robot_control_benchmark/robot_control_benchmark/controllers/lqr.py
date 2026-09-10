@@ -28,8 +28,10 @@ class LQRController(Controller):
         try:
             p = solve_discrete_are(a, b, self.q, self.r)
             gain = np.linalg.solve(self.r + b.T @ p @ b, b.T @ p @ a)
-        except np.linalg.LinAlgError:
-            gain = np.zeros((2, 3))
+        except np.linalg.LinAlgError as exc:
+            raise RuntimeError(
+                "LQR Riccati solve failed; check stabilizability and Q/R weights"
+            ) from exc
         correction = -gain @ error
         return Command(
             float(trajectory.linear[index] + correction[0]),

@@ -11,7 +11,9 @@ from .benchmark import run_suite
 def parser() -> argparse.ArgumentParser:
     result = argparse.ArgumentParser(description=__doc__)
     result.add_argument("--config", required=True, help="benchmark YAML")
-    result.add_argument("--output", required=True, help="new or existing output directory")
+    result.add_argument(
+        "--output", required=True, help="fresh output directory; matching artifacts are overwritten"
+    )
     return result
 
 

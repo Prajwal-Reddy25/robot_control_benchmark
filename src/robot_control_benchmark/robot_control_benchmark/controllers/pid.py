@@ -6,7 +6,7 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from ..types import Command, ReferenceTrajectory, State
+from ..types import Command, ReferenceTrajectory, State, wrap_angle
 from .base import Controller, tracking_error
 
 
@@ -35,7 +35,11 @@ class PIDController(Controller):
         self._integral = float(
             np.clip(self._integral + error.heading * dt, -self.integral_limit, self.integral_limit)
         )
-        derivative = 0.0 if self._first else (error.heading - self._previous_heading) / dt
+        derivative = (
+            0.0
+            if self._first
+            else float(wrap_angle(error.heading - self._previous_heading)) / dt
+        )
         self._first = False
         self._previous_heading = error.heading
         v_ref, w_ref = trajectory.linear[index], trajectory.angular[index]

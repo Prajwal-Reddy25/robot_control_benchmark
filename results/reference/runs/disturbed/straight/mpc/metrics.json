@@ -5,10 +5,10 @@
     "scenario": "disturbed"
   },
   "metrics": {
-    "achieved_frequency_hz": 3117.66822426751,
-    "compute_max_ms": 0.935164,
-    "compute_mean_ms": 0.32075253941908716,
-    "compute_p95_ms": 0.343373,
+    "compute_max_ms": 0.42697,
+    "compute_mean_ms": 0.3019702116182573,
+    "compute_p95_ms": 0.31606200000000007,
+    "compute_throughput_hz": 3311.584923032651,
     "control_effort": 3.1627724872424845,
     "control_variation": 16.617254482778257,
     "cross_track_mae_m": 0.1213672378966082,

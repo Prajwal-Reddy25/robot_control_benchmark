@@ -43,7 +43,7 @@ def calculate(result: RunResult, settling_band: float, settling_hold: float) -> 
         "compute_mean_ms": float(1e3 * np.mean(compute)),
         "compute_p95_ms": float(1e3 * np.percentile(compute, 95)),
         "compute_max_ms": float(1e3 * np.max(compute)),
-        "achieved_frequency_hz": float(1.0 / max(np.mean(compute), 1e-12)),
+        "compute_throughput_hz": float(1.0 / max(np.mean(compute), 1e-12)),
         "deadline_miss_ratio": float(np.mean(compute > dt)),
     }
     return metrics

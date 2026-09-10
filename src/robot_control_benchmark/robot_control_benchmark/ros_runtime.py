@@ -95,6 +95,10 @@ def run(args=None) -> None:
                 self._diagnostic(1, "waiting for odometry", 0.0)
                 return
             self._index = select_reference(self._state, self._trajectory, self._index)
+            if self._index >= len(self._trajectory.time) - 1:
+                self._cmd_pub.publish(Twist())
+                self._diagnostic(0, "trajectory complete", 0.0)
+                return
             command = self._controller.compute(
                 self._state, self._trajectory, self._index, self._dt
             )

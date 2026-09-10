@@ -22,8 +22,8 @@ setup(
     install_requires=["setuptools", "numpy", "scipy", "matplotlib", "PyYAML"],
     tests_require=["pytest"],
     zip_safe=True,
-    maintainer="robot_control_benchmark maintainers",
-    maintainer_email="maintainer@example.com",
+    maintainer="Prajwal",
+    maintainer_email="prajwalhb31@gmail.com",
     description="Reproducible trajectory-controller benchmark for differential-drive robots.",
     license="MIT",
     entry_points={

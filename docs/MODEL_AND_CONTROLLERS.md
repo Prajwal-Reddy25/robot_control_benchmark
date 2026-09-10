@@ -78,9 +78,11 @@ v_c=v_r\cos e_\theta-k_\parallel e_\parallel,
 -k_p e_\theta-k_i\int e_\theta dt-k_d\dot e_\theta.
 \]
 
-The integral has symmetric anti-windup bounds. This is a practical path-tracking PID structure,
-not a proof of global stability. Differentiating noisy heading makes it noise-sensitive; the common
-actuator acceleration limit partially filters the command but is not a substitute for estimation.
+The integral has symmetric anti-windup bounds. The heading derivative uses the shortest angular
+difference, preventing a spurious impulse at the positive/negative pi boundary. This is a
+practical path-tracking PID structure, not a proof of global stability. Differentiating noisy
+heading remains noise-sensitive; the common actuator acceleration limit partially filters the
+command but is not a substitute for estimation.
 
 ## Pure Pursuit
 
@@ -110,7 +112,10 @@ K=(R+B^TPB)^{-1}B^TPA,\qquad {\bf u}={\bf u}_r-K\delta{\bf x}.
 The DARE treatment freezes the local linearization over the infinite-horizon approximation. The
 external plant limiter enforces constraints, so the derived unconstrained feedback is no longer
 strictly optimal while saturated. Linearization is weakest for large pose errors and near loss of
-forward motion.
+forward motion. The supplied references retain nonzero forward speed, for which the local pair is
+stabilizable. If the Riccati equation cannot be solved (for example, at an unstabilizable
+zero-speed operating point), the controller raises an explicit error instead of silently reverting
+to feed-forward.
 
 ## Linear MPC
 
@@ -151,6 +156,7 @@ a scenario therefore see statistically identical, though feedback-dependent, ind
   hard arrival times.
 - Default gains are reasonable baselines, not exhaustively tuned optima. A fair controller claim
   would require a declared tuning budget, repeated seeds, uncertainty intervals, and hardware data.
-- Gazebo validates integration and more realistic contact behavior, but the deterministic offline
-  evidence must not be presented as hardware performance.
+- Gazebo is intended to exercise ROS/Gazebo integration and contact dynamics, but the deterministic
+  offline evidence must not be presented as hardware performance. See `VALIDATION.md` for the
+  integration scope actually executed in the recorded environment.
 

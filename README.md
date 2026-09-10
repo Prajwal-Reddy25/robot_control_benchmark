@@ -1,12 +1,14 @@
 # robot_control_benchmark
 
 A reproducible ROS 2 Jazzy and Gazebo Harmonic framework for comparing four
-trajectory-tracking controllers on the same differential-drive robot model:
+geometric path-tracking controllers on the same differential-drive robot model:
 PID, Pure Pursuit, time-varying LQR, and constrained linear MPC.
 
 The repository separates controller logic from ROS. Every algorithm can be tested in a fast,
 seeded kinematic simulator, then run unchanged behind a ROS 2 odometry/velocity adapter in
 Gazebo. Reports include raw samples, metrics, plots, configuration, and host provenance.
+Reference association is spatial rather than time-indexed; this project does not benchmark
+arrival-time tracking.
 
 ## What is included
 
@@ -15,7 +17,7 @@ Gazebo. Reports include raw samples, metrics, plots, configuration, and host pro
 - Seeded pose/heading measurement noise, independent wheel slip, initial-pose offsets, velocity
   saturation, and acceleration limiting.
 - Cross-track, heading, and position errors; RMSE; maximum error; settling time; control effort;
-  control variation; controller latency; achieved frequency; and deadline misses.
+  control variation; controller latency; compute throughput; and deadline misses.
 - Unit and end-to-end integration tests, ROS diagnostics, Gazebo model/world, two demo launch
   files, GitHub Actions, and executable benchmark evidence.
 
@@ -54,9 +56,11 @@ Run the complete 64-trial matrix:
   results/run_full
 ```
 
-The output contains `REPORT.md`, `summary.csv`, `provenance.json`, and for each trial a
-`metrics.json`, raw `samples.csv`, and `plot.png`. Fixed seeds make state and control histories
-repeatable. Wall-clock computation measurements are intentionally host-dependent.
+The output contains `REPORT.md`, `summary.csv`, `provenance.json`, an exact
+`configuration.yaml` snapshot, and for each trial a `metrics.json`, raw `samples.csv`, and
+`plot.png`. Use a fresh output directory: matching artifacts are overwritten, but unrelated files
+from an older matrix are not removed. Fixed seeds make state and control histories repeatable.
+Wall-clock computation measurements are intentionally host-dependent.
 
 ## ROS 2 demos
 
@@ -68,7 +72,7 @@ ros2 launch robot_control_benchmark benchmark.launch.py \
   output:=results/launch_quick
 ```
 
-Gazebo Harmonic closed loop:
+Gazebo Harmonic demo:
 
 ```bash
 ros2 launch robot_control_benchmark gazebo_demo.launch.py \
@@ -86,13 +90,17 @@ ros2 topic echo /diagnostics
 
 Each trial uses the same reference samples, integration step, actuator envelope, disturbance
 realization, nearest-point policy, and initial state for all controllers. Saturation is applied
-after the controller so an algorithm cannot bypass plant limits. The full matrix separates
-nominal, measurement-noise, wheel-slip, and combined cases. See
+after the controller so an algorithm cannot bypass plant limits. Gazebo's DiffDrive plugin is
+configured to the same default velocity and acceleration envelope. The full matrix separates
+nominal, measurement-noise, wheel-slip, and combined cases. Since reference association is spatial,
+the reported errors evaluate geometric path tracking rather than schedule or arrival-time error. See
 [docs/BENCHMARK_PROTOCOL.md](docs/BENCHMARK_PROTOCOL.md) before interpreting rankings.
 
 No controller is declared universally best. Results depend on gains, constraints, path geometry,
 disturbance model, sample time, and CPU. The checked-in [results/reference](results/reference)
 directory contains only outputs actually generated in the recorded environment.
+The precise executed validation scope, including the unavailable Gazebo-to-ROS transport check, is
+recorded in [docs/VALIDATION.md](docs/VALIDATION.md).
 
 ## Repository layout
 

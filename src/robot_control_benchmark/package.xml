@@ -3,7 +3,7 @@
   <name>robot_control_benchmark</name>
   <version>0.1.0</version>
   <description>Reproducible differential-drive controller benchmark and ROS 2 adapter.</description>
-  <maintainer email="maintainer@example.com">robot_control_benchmark maintainers</maintainer>
+  <maintainer email="prajwalhb31@gmail.com">Prajwal</maintainer>
   <license>MIT</license>
   <buildtool_depend>ament_python</buildtool_depend>
   <exec_depend>rclpy</exec_depend>
