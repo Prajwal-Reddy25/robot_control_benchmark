@@ -1,0 +1,25 @@
+{
+  "controller": "pure_pursuit",
+  "metadata": {
+    "dt": 0.05,
+    "scenario": "nominal"
+  },
+  "metrics": {
+    "achieved_frequency_hz": 172288.82481405907,
+    "compute_max_ms": 0.043201,
+    "compute_mean_ms": 0.005804206982543642,
+    "compute_p95_ms": 0.0066430000000000005,
+    "control_effort": 11.660994714561848,
+    "control_variation": 5.945465733549037,
+    "cross_track_mae_m": 0.03071875919797877,
+    "cross_track_rmse_m": 0.03593519883253371,
+    "deadline_miss_ratio": 0.0,
+    "heading_rmse_rad": 0.09836812625434004,
+    "maximum_cross_track_error_m": 0.07250007319198559,
+    "maximum_position_error_m": 0.0728872810437186,
+    "position_rmse_m": 0.036964161032531584,
+    "settling_time_s": 0.0
+  },
+  "seed": 42,
+  "trajectory": "figure_eight"
+}

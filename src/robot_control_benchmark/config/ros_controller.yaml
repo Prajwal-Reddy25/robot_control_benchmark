@@ -1,0 +1,8 @@
+trajectory_controller:
+  ros__parameters:
+    controller: mpc
+    trajectory: figure_eight
+    control_frequency: 20.0
+    odom_topic: /odom
+    cmd_vel_topic: /cmd_vel
+

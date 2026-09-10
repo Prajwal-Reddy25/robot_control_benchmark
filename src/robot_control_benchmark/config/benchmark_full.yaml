@@ -1,0 +1,30 @@
+dt: 0.05
+seed: 20260910
+controllers: [pid, pure_pursuit, lqr, mpc]
+trajectories: [straight, circle, figure_eight, spline]
+limits:
+  max_linear: 0.8
+  max_angular: 1.8
+  max_linear_accel: 1.5
+  max_angular_accel: 3.0
+settling_band: 0.10
+settling_hold_seconds: 1.0
+controller_parameters:
+  mpc: {horizon: 12, iterations: 35}
+scenarios:
+  nominal: {}
+  measurement_noise:
+    position_noise_std: 0.02
+    heading_noise_std: 0.015
+  wheel_slip:
+    wheel_slip_mean: 0.08
+    wheel_slip_std: 0.03
+  combined:
+    position_noise_std: 0.02
+    heading_noise_std: 0.015
+    wheel_slip_mean: 0.08
+    wheel_slip_std: 0.03
+    initial_x_error: -0.20
+    initial_y_error: 0.30
+    initial_yaw_error: 0.20
+

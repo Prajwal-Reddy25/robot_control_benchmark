@@ -1,0 +1,25 @@
+{
+  "controller": "lqr",
+  "metadata": {
+    "dt": 0.05,
+    "scenario": "nominal"
+  },
+  "metrics": {
+    "achieved_frequency_hz": 3936.2707749083015,
+    "compute_max_ms": 1.384136,
+    "compute_mean_ms": 0.2540475635910225,
+    "compute_p95_ms": 0.27923300000000006,
+    "control_effort": 13.633160853939899,
+    "control_variation": 7.991089071195509,
+    "cross_track_mae_m": 0.0018714104361237669,
+    "cross_track_rmse_m": 0.002270472319181959,
+    "deadline_miss_ratio": 0.0,
+    "heading_rmse_rad": 0.003353012346710911,
+    "maximum_cross_track_error_m": 0.004478930309470077,
+    "maximum_position_error_m": 0.021924264847501315,
+    "position_rmse_m": 0.005965593237043079,
+    "settling_time_s": 0.0
+  },
+  "seed": 42,
+  "trajectory": "figure_eight"
+}

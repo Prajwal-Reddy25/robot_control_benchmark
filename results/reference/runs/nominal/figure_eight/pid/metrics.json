@@ -1,0 +1,25 @@
+{
+  "controller": "pid",
+  "metadata": {
+    "dt": 0.05,
+    "scenario": "nominal"
+  },
+  "metrics": {
+    "achieved_frequency_hz": 131984.43702713118,
+    "compute_max_ms": 0.026149000000000002,
+    "compute_mean_ms": 0.007576650872817956,
+    "compute_p95_ms": 0.008085,
+    "control_effort": 13.643480935971922,
+    "control_variation": 8.052586477844088,
+    "cross_track_mae_m": 0.002387796567359988,
+    "cross_track_rmse_m": 0.003129099798978684,
+    "deadline_miss_ratio": 0.0,
+    "heading_rmse_rad": 0.0033508764448761962,
+    "maximum_cross_track_error_m": 0.008710021804572065,
+    "maximum_position_error_m": 0.021924263886061945,
+    "position_rmse_m": 0.006892072455595847,
+    "settling_time_s": 0.0
+  },
+  "seed": 42,
+  "trajectory": "figure_eight"
+}

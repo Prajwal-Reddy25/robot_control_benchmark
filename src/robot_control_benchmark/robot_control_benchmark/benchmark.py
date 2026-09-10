@@ -1,0 +1,65 @@
+"""Configuration-driven benchmark orchestration."""
+
+from __future__ import annotations
+
+from dataclasses import fields
+from pathlib import Path
+
+import yaml
+
+from .controllers import create
+from .reporting import save_run, save_summary
+from .simulator import simulate
+from .trajectories import generate
+from .types import DisturbanceConfig, Limits, SimulationConfig
+
+
+def _filtered(cls, values: dict) -> dict:
+    allowed = {item.name for item in fields(cls)}
+    unknown = set(values) - allowed
+    if unknown:
+        raise ValueError(f"unknown {cls.__name__} keys: {sorted(unknown)}")
+    return values
+
+
+def run_suite(config_path: str | Path, output: str | Path) -> list:
+    config_path, output = Path(config_path), Path(output)
+    with config_path.open(encoding="utf-8") as stream:
+        document = yaml.safe_load(stream)
+    required = {"controllers", "trajectories", "scenarios"}
+    missing = required - set(document)
+    if missing:
+        raise ValueError(f"benchmark config missing keys: {sorted(missing)}")
+
+    dt = float(document.get("dt", 0.05))
+    base_seed = int(document.get("seed", 7))
+    limits = Limits(**_filtered(Limits, document.get("limits", {})))
+    controller_options = document.get("controller_parameters", {})
+    results = []
+    scenarios = document["scenarios"].items()
+    for scenario_index, (scenario_name, disturbance_values) in enumerate(scenarios):
+        disturbances = DisturbanceConfig(
+            **_filtered(DisturbanceConfig, disturbance_values or {})
+        )
+        for trajectory_name in document["trajectories"]:
+            trajectory = generate(trajectory_name, dt)
+            for controller_name in document["controllers"]:
+                kwargs = controller_options.get(controller_name, {})
+                if controller_name == "mpc":
+                    kwargs = {**kwargs, "limits": limits}
+                controller = create(controller_name, **kwargs)
+                sim_config = SimulationConfig(
+                    dt=dt,
+                    seed=base_seed + scenario_index,
+                    limits=limits,
+                    disturbances=disturbances,
+                    settling_band=float(document.get("settling_band", 0.10)),
+                    settling_hold_seconds=float(document.get("settling_hold_seconds", 1.0)),
+                )
+                result = simulate(controller, trajectory, sim_config, scenario_name)
+                run_dir = output / "runs" / scenario_name / trajectory_name / controller_name
+                save_run(result, run_dir)
+                results.append(result)
+    save_summary(results, output, str(config_path))
+    return results
+
